@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
-import { ApiKey, countryList, countryListwithKey } from './models';
+import { ApiKey, Articles, countryList, countryListwithKey } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -10,18 +10,20 @@ export class StorageDatabase extends Dexie {
   // Tables
   private api: Dexie.Table<ApiKey, string>
   private list: Dexie.Table<countryListwithKey, string>
-
+  private article: Dexie.Table<Articles, string>
   constructor() { 
     // Database name
     super('table');
     // Setup schema for v1
     this.version(1).stores({
       api: 'id', // ++id for autoincrement
-      list: 'id'
+      list: 'id',
+      article: 'id++'
     })
     // Get a reference to the db collection
     this.api = this.table('api');
     this.list = this.table('list');
+    this.article = this.table('article');
   }
 
   // METHODS // 
@@ -53,5 +55,11 @@ export class StorageDatabase extends Dexie {
   }
   async hasList():Promise<boolean> {
     return (await this.list.get('list')) != null;
+  }
+
+  // get articles
+  async addArticles(a:Articles[]):Promise<any> {
+    console.info(a)
+    return await this.article.bulkAdd(a);
   }
 }

@@ -3,8 +3,18 @@
         <h3>You are at Detail.</h3>
     </mat-card>
     <div class="m-1" fxLayout="row" fxLayoutAlign="center center">
-        <button type="button" class="m-1" color="primary" mat-raised-button [routerLink]="['/form']">Form</button>
-        <button type="button" class="m-1" color="warn" mat-raised-button [routerLink]="['/main']">Main</button>
         <button type="button" class="m-1" mat-raised-button [routerLink]="['/']">Back</button>
+    </div>
+    <div *ngFor="let i of articlesArray" fxFlex fxLayoutAlign="column" fxLayoutAlign="center stretch">
+        <mat-card class="m-1" fxLayout="column" fxFlex="50" fxLayoutAlign="center center">
+            <h3><strong>{{i.title}}</strong></h3>
+            <p>Source : {{(i.source.name)}}</p>
+            <p>Published at: {{(i.publishedAt)}}</p>
+            <p>Author : {{(i.author)}}</p>
+            <p>Description : {{(i.description)}}</p>
+            <p>Content : {{i.content}}</p>
+            <a href="{{i.url}}" target="_blank">{{i.url}}</a>
+            <img  src="{{i.urlToImage}}" alt="">
+        </mat-card>
     </div>
 </div>

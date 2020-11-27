@@ -34,7 +34,13 @@ export class MainComponent implements OnInit {
         this.apiSvc.getList()
         .then (data => {
           console.info("list from api");
-          this.list = data as countryList[];
+          this.list = data.map(d => {
+             return <countryList> {
+               name: d.name,
+               flag: d.flag,
+               alpha2Code: d.alpha2Code
+             }
+          })
           this.db.saveList(this.list);
           }
         )
