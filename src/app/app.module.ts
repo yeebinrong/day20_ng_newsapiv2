@@ -20,6 +20,8 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './components/main.component';
 import { FormComponent } from './components/form.component';
 import { DetailComponent } from './components/detail.component';
+import { SettingComponent } from './components/setting.component';
+import { APIservice } from './api.service';
 //
 
 @NgModule({
@@ -27,7 +29,8 @@ import { DetailComponent } from './components/detail.component';
     AppComponent,
     MainComponent,
     FormComponent,
-    DetailComponent
+    DetailComponent,
+    SettingComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,7 @@ import { DetailComponent } from './components/detail.component';
     FlexLayoutModule,
     HttpClientModule,
   ],
-  providers: [{provide: MAT_DATE_LOCALE, useValue: 'en-GB'}, StorageDatabase],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'en-GB'}, StorageDatabase, APIservice],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

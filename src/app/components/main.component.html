@@ -1,10 +1,14 @@
 <div fxFill fxLayout="column">
-    <div class="m-1" fxLayout="row" fxLayoutAlign="center center">
-        <p>You are at Main</p>
+    <mat-card class="m-1" fxLayout="row" fxLayoutAlign="center center">
+        <h3>You are at Main.</h3>
+    </mat-card>
+    <div class="m-1" fxLayout="row" fxLayout="row" fxLayoutAlign="center center">
+        <button type="button" class="m-1" fxFlex="50" color="primary" mat-raised-button [routerLink]="['/form']">Setting</button>
     </div>
-    <div class="m-1" fxLayout="row" fxLayoutAlign="center center">
-        <button type="button" class="m-1" color="primary" mat-raised-button [routerLink]="['/form']">Form</button>
-        <button type="button" class="m-1" color="accent" mat-raised-button [routerLink]="['/detail']">Detail</button>
-        <button type="button" class="m-1" mat-raised-button [routerLink]="['/']">Back</button>
+    <div *ngFor="let i of list" fxFlex fxLayoutAlign="column" fxLayoutAlign="center stretch">
+        <button mat-raised-button class="m-1" (click)="gotoDetail(i.alpha2Code)" fxFlex="50" fxLayout="row" fxLayoutAlign="center center">
+            <h3>{{i.name}}</h3>
+            <img  src="{{i.flag}}" alt="">
+        </button>
     </div>
 </div>

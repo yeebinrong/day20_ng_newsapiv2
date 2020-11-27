@@ -4,6 +4,14 @@ body {
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
     background-color: rgb(206, 206, 206);
+    overflow-wrap: break-word !important;
+}
+
+/* NG deep to overwrite NG material */
+::ng-deep .mat-card-title{
+    word-wrap: break-word;
+    overflow-wrap: break-word !important;
+    white-space: pre-wrap;
 }
 
 .hover:hover {
@@ -55,3 +63,13 @@ button:disabled {
 .border {
     border: solid black 3px;
 }
+
+.f-right {
+    float: right;
+}
+
+/* Colours */
+.blue {
+    background-color: blue !important;
+}
+
