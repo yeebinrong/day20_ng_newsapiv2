@@ -1,0 +1,40 @@
+<div fxFill fxLayout="column">
+    <div class="m-1" fxLayout="row" fxLayoutAlign="center center">
+        <p>You are at Form</p>
+    </div>
+    <div class="m-1" fxLayout="row" fxLayoutAlign="center center">
+        <button type="button" class="m-1" color="accent" mat-raised-button [routerLink]="['/detail']">Detail</button>
+        <button type="button" class="m-1" color="warn" mat-raised-button [routerLink]="['/main']">Main</button>
+        <button type="button" class="m-1" mat-raised-button [routerLink]="['/']">Back</button>
+    </div>
+    <div fxFlex fxLayout="row" class="m-1" fxLayoutAlign="center stretch">
+        <mat-card fxFlex="70" fxLayout="column">
+            <form [formGroup]="form" fxLayout="column">
+                <mat-form-field appearance="outline"> <!-- Name Input -->
+                    <input type="text" matInput formControlName="name" placeholder="Your name.">
+                    <mat-error *ngIf="form.get('name').hasError('required')">Please enter a name.</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline"> <!-- Password Input -->
+                    <input  [type]="hide ? 'password' : 'text'" matInput formControlName="password" placeholder="Your password.">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('password').hasError('required')">Please enter a password.</mat-error>
+                </mat-form-field>
+                <label id="_priority">Priority</label>
+                <mat-radio-group formControlName="priority" aria-labelledby="_priority">            
+                    <mat-radio-button value="Low" class="m-1">Low</mat-radio-button>
+                    <mat-radio-button value="Medium" class="m-1">Medium</mat-radio-button>
+                    <mat-radio-button value="High" class="m-1">High</mat-radio-button>
+                </mat-radio-group>
+                <mat-form-field class="m-1">
+                    <input matInput [matDatepicker]="datepicker" formControlName="date" placeholder="Due date.">
+                    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker></mat-datepicker>
+                    <mat-error *ngIf="form.get('date').hasError('required')">Please enter a valid date.</mat-error>
+                </mat-form-field>
+                <button type="button" mat-raised-button [disabled]="form.invalid" color="accent">Submit</button>
+            </form>
+        </mat-card>
+    </div>
+</div>
