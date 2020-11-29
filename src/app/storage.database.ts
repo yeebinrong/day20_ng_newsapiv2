@@ -11,6 +11,7 @@ export class StorageDatabase extends Dexie {
   private api: Dexie.Table<ApiKey, string>
   private list: Dexie.Table<countryListwithKey, string>
   private article: Dexie.Table<Articles, string>
+
   constructor() { 
     // Database name
     super('table');
@@ -18,7 +19,7 @@ export class StorageDatabase extends Dexie {
     this.version(1).stores({
       api: 'id', // ++id for autoincrement
       list: 'id',
-      article: 'id++'
+      article: 'id++, alpha2Code, timestamp'
     })
     // Get a reference to the db collection
     this.api = this.table('api');
@@ -59,7 +60,18 @@ export class StorageDatabase extends Dexie {
 
   // get articles
   async addArticles(a:Articles[]):Promise<any> {
-    console.info(a)
     return await this.article.bulkAdd(a);
+  }
+  async updateArticle(a:Articles):Promise<any> {
+    return await this.article.put(a);
+  }
+  async getArticles(code:string):Promise<Articles[]> {
+    return await this.article.where('alpha2Code').equalsIgnoreCase(code).toArray();
+  }
+  async hasArticles(code:string):Promise<boolean> {
+    return (await this.article.where('alpha2Code').equalsIgnoreCase(code).toArray()).length > 0;
+  }
+  async deleteArticle(a:Articles):Promise<any> {
+    return await this.article.delete(a.id);
   }
 }

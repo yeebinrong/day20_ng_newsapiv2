@@ -41,6 +41,7 @@ export class MainComponent implements OnInit {
                alpha2Code: d.alpha2Code
              }
           })
+          // save to db
           this.db.saveList(this.list);
           }
         )

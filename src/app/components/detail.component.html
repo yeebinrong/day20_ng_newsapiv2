@@ -15,6 +15,11 @@
             <p>Content : {{i.content}}</p>
             <a href="{{i.url}}" target="_blank">{{i.url}}</a>
             <img  src="{{i.urlToImage}}" alt="">
+            <section class="example-section">
+                <mat-slide-toggle class="m-1" [checked]="i.saved" (toggleChange)="checkToggle(i)">
+                  Save Article
+                </mat-slide-toggle>
+              </section>
         </mat-card>
     </div>
 </div>

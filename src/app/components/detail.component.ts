@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { APIservice } from '../api.service';
 import { Articles } from '../models';
 import { StorageDatabase } from '../storage.database';
@@ -16,19 +17,52 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.code = this.activatedRoute.snapshot.params['code'];
+    this.db.hasArticles(this.code)
+    .then (bool => {
+      if (bool) {
+        // get from db
+        console.info("articles from db");
+        this.db.getArticles(this.code)
+        .then (results => {
+          // check if caching has passed 5 minutes
+          for (let i of results) {
+            if (moment(i.timestamp).add(5, 'minutes').toDate() >= new Date()) {
+              // have not passed 5 minutes
+              console.info("have not passed 5minutes")
+              this.articlesArray.push(i);
+            } else {
+              console.info("have passed 5minutes")
+              if (i.saved) {
+                // if article is saved
+                console.info("an article was saved")
+                this.articlesArray.push(i)
+              } else {
+                // delete article
+                console.info("an article is deleted")
+                this.db.deleteArticle(i);
+                // get new article from newsapi
+                // check if got duplicate articles with saved
+              }
+            }
+          }
+        })
+      } else {
+        // get from api
+        this.getArticles();
+      }
+    })
+  }
+
+  getArticles() {
+    console.info("articles from api");
     this.apiSvc.getArticles(this.code)
-    // this.list = data.map(d => {
-    //   return <countryList> {
-    //     name: d.name,
-    //     flag: d.flag,
-    //     alpha2Code: d.alpha2Code
-    //   }
     .then (results => {
       console.info(results)
       this.articlesArray = results['articles'].map(d => {
         return<Articles> {
           alpha2Code: this.code,
-          timestamp: new Date(),
+          timestamp: Date.now(),
+          saved: false,
           source: d.source,
           author: d.author,
           title: d.title,
@@ -41,7 +75,11 @@ export class DetailComponent implements OnInit {
       })
       this.db.addArticles(this.articlesArray);
     })
-
   }
 
+  async checkToggle(i:Articles) {
+    i.saved = !i.saved;
+    // update db on saved article
+    await this.db.updateArticle(i);
+  }
 }

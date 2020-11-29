@@ -15,9 +15,10 @@ export interface countryListwithKey {
 }
 
 export interface Articles {
-    saved?: boolean,
+    id: string;
+    saved: boolean,
     alpha2Code: string,
-    timestamp: Date,
+    timestamp: number,
     source: source,
     author: string,
     title: string,
