@@ -42,6 +42,7 @@ export class DetailComponent implements OnInit {
                 this.db.deleteArticle(i);
                 // get new article from newsapi
                 // check if got duplicate articles with saved
+                // NOT IMPLEMENTED // 
               }
             }
           }
